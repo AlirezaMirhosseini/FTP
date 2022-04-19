@@ -24,22 +24,16 @@ def PWD():
         return '/'
 
 def CD(dirName):
-    dirName = ' '.join(st for st in dirName)
-    if dirName[len(dirName)-1] != '/':
-        dirName = '/' + dirName
     global CURRENT_PATH,BASE_DIR
-    if dirName == '..':
-        counter = len(CURRENT_PATH)-1
-        while(len(CURRENT_PATH)!=len(BASE_DIR) and CURRENT_PATH[counter]!='/'):
-            counter = counter -1
-        if CURRENT_PATH[counter] == '/': counter = counter -1
-        CURRENT_PATH =  CURRENT_PATH[:counter]    
-        return PWD()
-            
-    else:
-        CURRENT_PATH = CURRENT_PATH + dirName
-        os.chdir(CURRENT_PATH)
-        return PWD()
+    dirName = ' '.join(st for st in dirName)
+    if dirName[len(dirName)-1] == '/':
+        dirName = dirName[:len(dirName)-2]
+    dirName = '/' + dirName    
+    if dirName == '/..' and BASE_DIR == CURRENT_PATH:
+        return 'ERROR! YOU DON\'T HAVE PERMISSION TO ACCESS THIS LOACATION\n'
+    CURRENT_PATH = CURRENT_PATH + dirName
+    os.chdir(CURRENT_PATH)
+    return PWD()
 
 
 
