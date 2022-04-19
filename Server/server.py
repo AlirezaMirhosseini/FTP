@@ -31,8 +31,12 @@ def CD(dirName):
     dirName = '/' + dirName    
     if dirName == '/..' and BASE_DIR == CURRENT_PATH:
         return 'ERROR! YOU DON\'T HAVE PERMISSION TO ACCESS THIS LOACATION\n'
-    CURRENT_PATH = CURRENT_PATH + dirName
-    os.chdir(CURRENT_PATH)
+    temp = CURRENT_PATH + dirName
+    try:
+        os.chdir(temp)
+        CURRENT_PATH = temp
+    except(FileNotFoundError): 
+        return f'{dirName[1:]}: No such file or directory'
     return PWD()
 
 
