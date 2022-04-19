@@ -9,6 +9,6 @@ while True:
     clientSocket.send(command.encode())
 
     #recv from server
-    print(f'from server {clientSocket.recv(2048).decode()} received.')
+    print(clientSocket.recv(2048).decode())
 
 clientSocket.close()
