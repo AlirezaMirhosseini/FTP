@@ -1,6 +1,8 @@
 from socket import *
+import os
 
 
+BASE_DIR = os.getcwd()
 
 def HELP():
     return 'These are available commands\n1.HELP\n2.LIST\n3.DWLD\n4.PWD\n5.CD\n'
@@ -12,7 +14,10 @@ def DWLD(filePath):
     pass
 
 def PWD():
-    pass
+    #os.chdir(BASE_DIR+'/Server')
+    real_path = os.getcwd()
+    #return real_path[len(BASE_DIR):]
+    return real_path
 
 def CD(dirName):
     pass
