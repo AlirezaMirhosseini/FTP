@@ -10,7 +10,7 @@ def HELP():
     return 'These are available commands\n1.HELP\n2.LIST\n3.DWLD\n4.PWD\n5.CD\n'
 
 def LIST():
-    return ''.join(f'{obj}  {str(os.path.getsize(obj))} bits\n' for obj in os.listdir(CURRENT_PATH))
+    return ''.join('%-30s'%(obj,) + '%-20s'%(str(os.path.getsize(obj)),) + 'bits\n' for obj in os.listdir(CURRENT_PATH))
 
 def DWLD(filePath):
     pass
