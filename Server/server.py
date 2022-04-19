@@ -14,4 +14,3 @@ while(True):
     privateSocket.send(command.encode())
     #send to client
     privateSocket.close()
-
