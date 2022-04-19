@@ -3,6 +3,7 @@ import os
 
 
 BASE_DIR = os.getcwd()
+CURRENT_PATH = os.getcwd()
 
 def HELP():
     return 'These are available commands\n1.HELP\n2.LIST\n3.DWLD\n4.PWD\n5.CD\n'
@@ -14,23 +15,25 @@ def DWLD(filePath):
     pass
 
 def PWD():
-    #os.chdir(BASE_DIR+'/Server')
     real_path = os.getcwd()
-    #return real_path[len(BASE_DIR):]
-    return real_path
+    return '/'+real_path[len(BASE_DIR):]
 
 def CD(dirName):
-    pass
+    
+    CURRENT_PATH = CURRENT_PATH + dirName
+    os.chdir(CURRENT_PATH)
+    return CURRENT_PATH[len(BASE_DIR):]
+
 
 
 host = '127.0.0.1'
-port = 25000
+port = 2121
 serverSocket = socket(AF_INET,SOCK_STREAM)
 serverSocket.bind((host,port))
 serverSocket.listen(10)
 print('now server is ready :)')
+privateSocket,address = serverSocket.accept()
 while(True):
-    privateSocket,address = serverSocket.accept()
     command = privateSocket.recv(2048).decode()
     print(f'from client {command} received.')
     command = command.split()
@@ -49,5 +52,5 @@ while(True):
 
     privateSocket.send(data.encode())
     #send to client
-    privateSocket.close()
+privateSocket.close()
 
