@@ -10,7 +10,8 @@ while(True):
     privateSocket,address = serverSocket.accept()
     command = privateSocket.recv(2048).decode()
     #some process on data
-
+    print(f'from client {command} received.')
+    privateSocket.send(command.encode())
     #send to client
     privateSocket.close()
 
