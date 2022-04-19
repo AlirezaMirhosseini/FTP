@@ -16,30 +16,38 @@ def DWLD(filePath):
     pass
 
 def PWD():
-    global BASE_DIR
-    real_path = os.getcwd()
-    if(BASE_DIR != real_path):
-        return real_path[len(BASE_DIR):]
+    global BASE_DIR,CURRENT_PATH
+    if(BASE_DIR != CURRENT_PATH):
+        return CURRENT_PATH[len(BASE_DIR):]
     else:
         return '/'
 
 def CD(dirName):
     global CURRENT_PATH,BASE_DIR
     dirName = ' '.join(st for st in dirName)
-    if dirName[len(dirName)-1] == '/':
-        dirName = dirName[:len(dirName)-2]
-    dirName = '/' + dirName    
-    if dirName == '/..' and BASE_DIR == CURRENT_PATH:
-        return 'ERROR! YOU DON\'T HAVE PERMISSION TO ACCESS THIS LOACATION\n'
-    temp = CURRENT_PATH + dirName
-    try:
-        os.chdir(temp)
-        CURRENT_PATH = temp
-    except(FileNotFoundError): 
-        return f'{dirName[1:]}: No such file or directory'
-    return PWD()
 
-
+    if dirName == '..' or dirName == '../':
+        counter = len(CURRENT_PATH)-1
+        if BASE_DIR == CURRENT_PATH:
+              return 'ERROR! YOU DON\'T HAVE PERMISSION TO ACCESS THIS LOACATION\n'
+        while(CURRENT_PATH[counter]!='/'):
+            counter = counter -1
+        CURRENT_PATH =  CURRENT_PATH[:counter]    
+        os.chdir(CURRENT_PATH)
+        return PWD()
+    else:  
+        if dirName[len(dirName)-1] == '/':
+            dirName = dirName[:len(dirName)-1]
+        dirName = '/' + dirName    
+        temp = CURRENT_PATH + dirName
+        try:
+            os.chdir(temp)
+            CURRENT_PATH = temp
+        except(FileNotFoundError): 
+            return f'{dirName[1:]}: No such file or directory'
+        return PWD()
+    
+    
 
 host = '127.0.0.1'
 port = 2121
