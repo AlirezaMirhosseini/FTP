@@ -25,14 +25,19 @@ def DWLD(fileName):
     startDownload = time.time()
     
     print('Sending...')
-    with open(fileName, "rb") as file:
-        data = file.read()
-        tempConnection.send(data)
+    try:
+        with open(fileName, "rb") as file:
+            data = file.read()
+            tempConnection.send(data)
 
-    print('Done Sending =)')
-    timeElapsed = time.time() - startDownload
-    tempSocket.close()
-    return f' Time Elapsed : {timeElapsed}\n'
+        file_stats = os.stat(fileName)
+        print('Done Sending =)')
+        timeElapsed = time.time() - startDownload
+        tempSocket.close()
+        return f'   File Size : {file_stats.st_size}\n      Time Elapsed : {timeElapsed}\n         Closing data TCP connection !\n            Ack sent to TCP control connection !'
+    except IOError:
+        print("File not accessible")
+        return 'File not accessible'
     
 
 def PWD():
