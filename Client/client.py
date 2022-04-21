@@ -1,7 +1,7 @@
 from socket import *
 
-host = '127.0.0.1'
-port = 2121
+host = '2.tcp.eu.ngrok.io'
+port = 11304
 clientSocket = socket(AF_INET,SOCK_STREAM)
 clientSocket.connect((host,port))
 while True:

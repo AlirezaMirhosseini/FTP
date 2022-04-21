@@ -34,7 +34,7 @@ def DWLD(fileName):
         print('Done Sending =)')
         timeElapsed = time.time() - startDownload
         tempSocket.close()
-        return f'   File Size : {file_stats.st_size}\n      Time Elapsed : {timeElapsed}\n         Closing data TCP connection !\n            Ack sent to TCP control connection !'
+        return f'   File Size : {file_stats.st_size}\n      Time Elapsed : {timeElapsed} s\n         Closing data TCP connection !\n            Ack sent to TCP control connection !'
     except IOError:
         print("File not accessible")
         return 'File not accessible'
