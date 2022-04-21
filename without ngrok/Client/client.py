@@ -9,7 +9,7 @@ while True:
     clientSocket.send(command.encode())
 
     if command[:4] == "DWLD":
-        tempPort =  clientSocket.recv(2048).decode()
+        tempPort =  clientSocket.recv(1024).decode()
         print('Receiving...')
         fileName = command.split()[1]
         print(fileName)
@@ -18,8 +18,11 @@ while True:
         tempClient.connect((host, int(tempPort)))
         
         data = b""
-        downloadedBin = tempClient.recv(1048576)
-        data += downloadedBin
+        while True:
+            downloadedBin = tempClient.recv(1024)
+            data += downloadedBin
+            if not downloadedBin:
+                break;
         fileName += " DownLoaded"
         with open(fileName, "wb") as file:
             file.write(data)
@@ -28,6 +31,6 @@ while True:
         
 
     #recv from server
-    print(clientSocket.recv(2048).decode())
+    print(clientSocket.recv(1024).decode())
 
 clientSocket.close()
