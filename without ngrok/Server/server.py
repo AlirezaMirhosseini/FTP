@@ -37,6 +37,8 @@ def DWLD(fileName):
         return f'   File Size : {file_stats.st_size}\n      Time Elapsed : {timeElapsed} s\n         Closing data TCP connection !\n            Ack sent to TCP control connection !'
     except IOError:
         print("File not accessible")
+        tempConnection.send('File not accessible'.encode())
+        tempConnection.close()
         return 'File not accessible'
     
 
