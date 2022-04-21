@@ -24,11 +24,11 @@ while True:
             cleared_return = downloadedBin.decode()
             if cleared_return == 'File not accessible':
                 is_validate = False
-                break;
+                break
             
             data += downloadedBin
             if not downloadedBin:
-                break;
+                break
         if is_validate:        
             fileName += " DownLoaded"
             with open(fileName, "wb") as file:
