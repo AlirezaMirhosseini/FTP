@@ -18,15 +18,22 @@ while True:
         tempClient.connect((host, int(tempPort)))
         
         data = b""
+        is_validate = True
         while True:
             downloadedBin = tempClient.recv(1024)
+            cleared_return = downloadedBin.decode()
+            if cleared_return == 'File not accessible':
+                is_validate = False
+                break;
+            
             data += downloadedBin
             if not downloadedBin:
                 break;
-        fileName += " DownLoaded"
-        with open(fileName, "wb") as file:
-            file.write(data)
-        print('Done Recieving =)')
+        if is_validate:        
+            fileName += " DownLoaded"
+            with open(fileName, "wb") as file:
+                file.write(data)
+            print('Done Recieving =)')
         tempClient.close()
         
 
