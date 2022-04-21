@@ -4,6 +4,7 @@ host = '127.0.0.1'
 port = 2121
 clientSocket = socket(AF_INET,SOCK_STREAM)
 clientSocket.connect((host,port))
+downloadCounter = 0
 while True:
     command = input('root# ')
     clientSocket.send(command.encode())
@@ -29,8 +30,11 @@ while True:
             data += downloadedBin
             if not downloadedBin:
                 break
-        if is_validate:        
+        if is_validate:
             fileName += " DownLoaded"
+            if downloadCounter:
+                fileName += str(downloadCounter)
+            downloadCounter += 1
             with open(fileName, "wb") as file:
                 file.write(data)
             print('Done Recieving =)')
