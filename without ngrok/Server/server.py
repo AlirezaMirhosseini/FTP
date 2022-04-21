@@ -82,7 +82,7 @@ serverSocket.listen(10)
 print('now server is ready :)')
 privateSocket,address = serverSocket.accept()
 while(True):
-    command = privateSocket.recv(2048).decode()
+    command = privateSocket.recv(1024).decode()
     print(f'from client {command} received.')
     command = command.split()
     if command[0] == 'HELP':
