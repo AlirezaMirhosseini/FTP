@@ -1,11 +1,13 @@
 from socket import *
+from pyngrok import ngrok
 
-host = '4.tcp.eu.ngrok.io'
-port = 16080
+host = '7.tcp.eu.ngrok.io'
+port = 14472
+downloadCounter = 0
 clientSocket = socket(AF_INET,SOCK_STREAM)
 clientSocket.connect((host,port))
 CurrentDirectory = '/'
-print('\nHello\n\nWelcome to FTP application\n')
+#print('\nHello\n\nWelcome to FTP application\n')
 command = 'HELP'
 clientSocket.send(command.encode())
 print(clientSocket.recv(1024).decode())
@@ -14,22 +16,32 @@ while True:
     clientSocket.send(command.encode())
 
     if command[:4] == "DWLD":
-        tempPort =  clientSocket.recv(2048).decode()
-        print('Receiving...')
-        fileName = command.split()[1]
-        print(fileName)
-        
-        tempClient = socket(AF_INET,SOCK_STREAM)
-        tempClient.connect((host, int(tempPort)))
-        
-        data = b""
-        downloadedBin = tempClient.recv(1048576)
-        data += downloadedBin
-        fileName += " DownLoaded"
-        with open(fileName, "wb") as file:
-            file.write(data)
-        print('Done Recieving =)')
-        tempClient.close()
+            print('Receiving...')
+            fileName = command.split()[1]
+            print(fileName)            
+            data = b""
+            is_validate = True
+            while True:
+                downloadedBin = clientSocket.recv(1024)
+                cleared_return = downloadedBin.decode()
+                if cleared_return == 'File not accessible':
+                    is_validate = False
+                    break
+                if cleared_return == 'END SEND':
+                    break
+                data += downloadedBin
+                if not downloadedBin:
+                    break
+            if is_validate:
+                fileName += " DownLoaded"
+                if downloadCounter:
+                    fileName += str(downloadCounter)
+                downloadCounter += 1
+                with open(fileName, "wb") as file:
+                    file.write(data)
+                print('Done Recieving =)')
+            
+                print(clientSocket.recv(1024).decode())
     elif command[:2] == "CD":
         cleaned_data = clientSocket.recv(1024).decode()
         print(cleaned_data)

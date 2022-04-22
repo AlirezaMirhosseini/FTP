@@ -4,7 +4,6 @@ import os
 import pickle
 from random import randint
 import time
-from pyngrok import ngrok
 
 BASE_DIR = os.getcwd()
 CURRENT_PATH = os.getcwd()
@@ -16,31 +15,22 @@ def LIST():
     return ''.join('%-30s'%(obj,) + '%-20s'%(str(os.path.getsize(obj)),) + 'bits\n' for obj in os.listdir(CURRENT_PATH))
 
 def DWLD(fileName):
- #   ngrok.
     global privateSocket
-    randNum = randint(3000, 50000)
-    tempSocket = socket(AF_INET,SOCK_STREAM)
-    tempSocket.bind((host,randNum))
-    tempSocket.listen(5)
-    privateSocket.send(str(randNum).encode())
-    tempConnection, tempAddr = tempSocket.accept()
     startDownload = time.time()
-    
     print('Sending...')
     try:
         with open(fileName, "rb") as file:
             data = file.read()
-            tempConnection.send(data)
-
+            privateSocket.send(data)
+        time.sleep(1)
+        privateSocket.send('END SEND'.encode())
+        time.sleep(1)
         file_stats = os.stat(fileName)
         print('Done Sending =)')
         timeElapsed = time.time() - startDownload
-        tempSocket.close()
         return f'   File Size : {file_stats.st_size}\n      Time Elapsed : {timeElapsed} s\n         Closing data TCP connection !\n            Ack sent to TCP control connection !'
     except IOError:
         print("File not accessible")
-        tempConnection.send('File not accessible'.encode())
-        tempConnection.close()
         return 'File not accessible'
     
 
