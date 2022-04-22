@@ -37,6 +37,8 @@ def DWLD(fileName):
         return f'   File Size : {file_stats.st_size}\n      Time Elapsed : {timeElapsed} s\n         Closing data TCP connection !\n            Ack sent to TCP control connection !'
     except IOError:
         print("File not accessible")
+        tempConnection.send('File not accessible'.encode())
+        tempConnection.close()
         return 'File not accessible'
     
 
@@ -82,7 +84,7 @@ serverSocket.listen(10)
 print('now server is ready :)')
 privateSocket,address = serverSocket.accept()
 while(True):
-    command = privateSocket.recv(2048).decode()
+    command = privateSocket.recv(1024).decode()
     print(f'from client {command} received.')
     command = command.split()
     if command[0] == 'HELP':
