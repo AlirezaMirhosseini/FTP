@@ -6,6 +6,10 @@ clientSocket = socket(AF_INET,SOCK_STREAM)
 clientSocket.connect((host,port))
 downloadCounter = 0
 CurrentDirectory = '/'
+print('\nHello\n\nWelcome to FTP application\n')
+command = 'HELP'
+clientSocket.send(command.encode())
+print(clientSocket.recv(1024).decode())
 while True:
     command = input(f'root:{CurrentDirectory}# ')
     clientSocket.send(command.encode())
