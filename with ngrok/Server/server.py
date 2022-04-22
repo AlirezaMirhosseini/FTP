@@ -4,6 +4,7 @@ import os
 import pickle
 from random import randint
 import time
+from pyngrok import ngrok
 
 BASE_DIR = os.getcwd()
 CURRENT_PATH = os.getcwd()
@@ -15,6 +16,7 @@ def LIST():
     return ''.join('%-30s'%(obj,) + '%-20s'%(str(os.path.getsize(obj)),) + 'bits\n' for obj in os.listdir(CURRENT_PATH))
 
 def DWLD(fileName):
+    ngrok.
     global privateSocket
     randNum = randint(3000, 50000)
     tempSocket = socket(AF_INET,SOCK_STREAM)
