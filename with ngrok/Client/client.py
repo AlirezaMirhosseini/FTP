@@ -36,7 +36,11 @@ while True:
                     counter = counter -1
                 CurrentDirectory =  CurrentDirectory[:counter+1]
             else:
-                CurrentDirectory = CurrentDirectory + command[3:]+'/'
+                wanted = command[3:]
+                length = len(wanted)
+                if wanted[length-1]=='/':
+                    wanted = wanted[:length-1]
+                CurrentDirectory = CurrentDirectory + wanted+'/'
         
 
     else:

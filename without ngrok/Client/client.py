@@ -45,6 +45,7 @@ while True:
         print(cleaned_data)
         if not (cleaned_data == 'ERROR! YOU DON\'T HAVE PERMISSION TO ACCESS THIS LOACATION\n' or cleaned_data == f'{command[3:]}: No such file or directory'):
             if command[3:] == '..' or command[3:] == '../':
+                command[3:] = '..'
                 counter = len(CurrentDirectory)-2
                 while(CurrentDirectory[counter]!='/'):
                     counter = counter -1
