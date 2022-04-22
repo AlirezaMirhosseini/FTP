@@ -44,7 +44,13 @@ while True:
         cleaned_data = clientSocket.recv(1024).decode()
         print(cleaned_data)
         if not cleaned_data == 'ERROR! YOU DON\'T HAVE PERMISSION TO ACCESS THIS LOACATION\n':
-            CurrentDirectory = CurrentDirectory + command[3:]+'/'
+            if command[3:] == '..' or command[3:] == '../':
+                counter = len(CurrentDirectory)-2
+                while(CurrentDirectory[counter]!='/'):
+                    counter = counter -1
+                CurrentDirectory =  CurrentDirectory[:counter+1]
+            else:
+                CurrentDirectory = CurrentDirectory + command[3:]+'/'
         
 
     else:
