@@ -7,7 +7,7 @@ clientSocket.connect((host,port))
 downloadCounter = 0
 CurrentDirectory = '/'
 while True:
-    command = input(f'root{CurrentDirectory}# ')
+    command = input(f'root:{CurrentDirectory}# ')
     clientSocket.send(command.encode())
 
     if command[:4] == "DWLD":
